@@ -33,6 +33,7 @@ docker run --name apt-cacher-ng-data \
 	-v /var/cache/apt-cacher-ng --entrypoint /bin/echo \
 	tianon/apt-cacher-ng APT cache
 docker run -d --restart=always --name apt-cacher-ng \
+	--volumes-from apt-cacher-ng-data \
 	--dns 8.8.8.8 --dns 8.8.4.4 tianon/apt-cacher-ng
 
 # artifactory provides an advanced proxy for java libraries.
