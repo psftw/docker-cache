@@ -24,7 +24,7 @@ docker run -d --restart=always --name registry \
 #
 # github.com/tianon/rawdns
 docker run -d --restart=always --name rawdns \
-	-p 127.0.0.1:53:53/udp -v /var/run/docker.sock:/var/run/docker.sock \
+	-p 53:53/udp -v /var/run/docker.sock:/var/run/docker.sock \
 	-v $(pwd)/rawdns.json:/etc/rawdns.json:ro \
 	tianon/rawdns rawdns /etc/rawdns.json
 
