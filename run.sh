@@ -1,26 +1,13 @@
 #!/bin/bash
+set -x
+
+cd "$(dirname "$(readlink -f "$BASH_SOURCE")")"
 
 # collection of cache/proxy containers!
 
-set -x
-# registry provides a local Docker image proxy cache.  You'll need to configure
-# your Docker daemon to use it with:
-# "--registry-mirror http://localhost:5000 --insecure-registry localhost:5000".
-#
-# github.com/docker/docker-registry
-docker run --name registry-data \
-	-v /tmp --entrypoint /bin/echo \
-	registry "Registry mirror cache"
-docker run -d --restart=always --name registry \
-	--volumes-from registry-data \
-	-p 127.0.0.1:5000:5000 -e STANDALONE=false \
-	-e MIRROR_SOURCE=https://registry-1.docker.io \
-	-e MIRROR_SOURCE_INDEX=https://index.docker.io \
-	registry
-
 # rawdns provides a Docker-aware DNS server.  You'll need to configure your
-# Docker daemon to use it by default from containers (i.e.  set daemon option
-# "--dns 172.17.42.1"), and then configure your host system's resolver as well.
+# Docker daemon to use it by default (i.e. "--dns 172.17.42.1"), and configure
+# your host system's resolver as well.
 #
 # github.com/tianon/rawdns
 docker run -d --restart=always --name rawdns \
@@ -44,4 +31,3 @@ docker run -d --restart=always --name apt-cacher-ng \
 # github.com/mattgruter/dockerfile-artifactory
 #docker run -d --restart=always --name artifactory \
 #	-h artifactory mattgruter/artifactory
-
